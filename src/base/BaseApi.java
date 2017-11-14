@@ -14,6 +14,7 @@ public abstract class BaseApi {
 
 	protected JSONObject js = new JSONObject();
 	protected FullHttpResponse response = null;;
+	protected String log = "";//log信息
 
 	public abstract FullHttpResponse getResponse() throws IOException;//对接口数据的处理并返回处理的服务器返回结果
 
@@ -44,5 +45,21 @@ public abstract class BaseApi {
 	public BaseApi setData(String data){
 		js.put("data", data);
 		return this;
+	}
+	/**
+	 * 获取log信息
+	 * @return
+	 */
+	public String getLog(){
+		return log;
+	}
+	/**
+	 * 添加log信息
+	 * @param log
+	 * @return
+	 */
+	public String addLog(String log){
+		this.log = this.log+log+"\n";
+		return this.log;
 	}
 }

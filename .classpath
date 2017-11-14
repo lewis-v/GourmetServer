@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/json-lib-2.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.1.16.Final-sources.jar"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.1.16.Final.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

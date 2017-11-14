@@ -100,7 +100,9 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 				}
 			}
 			if (uri.startsWith("/Login")){
-				response = new Login(parmMap).getResponse();
+				Login login = new Login(parmMap);
+				response = login.getResponse();
+				Log = Log + login.getLog();
 			}
 
 		}
@@ -122,9 +124,8 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override  
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {  
-		ctx.flush();  
-
-		//		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+//		ctx.flush();  
+		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
 
 		System.out.println(Log+"----------end----------\n");
 		Log = "----------start----------\n";

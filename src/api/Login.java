@@ -10,6 +10,7 @@ import base.BaseApi;
 import dao.SqlConnection;
 import io.netty.handler.codec.http.FullHttpResponse;
 import net.sf.json.JSONObject;
+import utils.MD5;
 import utils.ServiceResult;
 
 public class Login extends BaseApi{
@@ -29,10 +30,23 @@ public class Login extends BaseApi{
 				response = ServiceResult.getJSONResult(js.toString());
 			}else{//µÇÂ¼²Ù×÷
 				List<JSONObject> list = SqlConnection.getInstance()
-						.search("id", "password = \'"+parmMap.get("password")+"\' && "
-				+"accout_number = \'"+parmMap.get("id")+"\'", "user");
-				System.out.println(list.toString());
-				setStatus(SUCCESS).setMessage("µÇÂ¼³É¹¦");
+						.search("id", "accout_number = \'"+parmMap.get("id")+"\' "
+								+ "AND password = \'"+parmMap.get("password")+"\'", "user");
+				if (list.size()>0){
+					setStatus(SUCCESS).setMessage("µÇÂ¼³É¹¦");
+					list = SqlConnection.getInstance()
+							.search("*", "user_id = "+list.get(0).getString("id"), "user_info");
+					if (list.size() > 0){
+						String token = MD5.md5(System.currentTimeMillis()+"").toUpperCase();
+						list.get(0).put("token", token);
+						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+								, "id = "+list.get(0).getString("user_id"), "user");
+						setData(list.get(0).toString());
+					}
+					addLog(SqlConnection.getInstance().getLog());
+				}else{
+					setStatus(SUCCESS).setMessage("ÕËºÅ»òÃÜÂë´íÎó");
+				}
 				response = ServiceResult.getJSONResult(js.toString());
 			}
 		return response;
