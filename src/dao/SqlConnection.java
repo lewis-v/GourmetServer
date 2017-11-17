@@ -40,7 +40,9 @@ public class SqlConnection {
 	 * 获取数据库连接的log日志
 	 */
 	public String getLog(){
-		return log;
+		String result = log;
+		log = "";
+		return result;
 	}
 
 	/**

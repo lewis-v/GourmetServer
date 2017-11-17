@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import api.Login;
+import api.ShareListLoad;
 import io.netty.buffer.ByteBuf;  
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -103,6 +104,10 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 				Login login = new Login(parmMap);
 				response = login.getResponse();
 				Log = Log + login.getLog();
+			}else if (uri.startsWith("/ShareList/Load")) {
+				ShareListLoad shareListLoad = new ShareListLoad(parmMap);
+				response = shareListLoad.getResponse();
+				Log = Log +shareListLoad.getLog();
 			}
 
 		}
@@ -117,7 +122,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 		}
 		response.headers().set(CONTENT_LENGTH, response.content().readableBytes()); 
 
-		Log = Log +response.toString()+"\n";
+		Log = Log +response.content().toString()+"\n";
 		ctx.write(response);  
 		ctx.flush();  
 	}  

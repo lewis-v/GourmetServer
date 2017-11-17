@@ -2,6 +2,8 @@ package base;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.netty.handler.codec.http.FullHttpResponse;
 import net.sf.json.JSONObject;
@@ -15,6 +17,13 @@ public abstract class BaseApi {
 	protected JSONObject js = new JSONObject();
 	protected FullHttpResponse response = null;;
 	protected String log = "";//log信息
+	
+	protected Map<String, String> parmMap = new HashMap<>();
+
+	public BaseApi(Map<String, String> parmMap){
+		this.parmMap = parmMap;
+	}
+
 
 	public abstract FullHttpResponse getResponse() throws IOException;//对接口数据的处理并返回处理的服务器返回结果
 
