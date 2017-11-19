@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import api.ImgGet;
 import api.Login;
 import api.ShareListLoad;
 import io.netty.buffer.ByteBuf;  
@@ -76,6 +77,11 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 				parmMap.put(entry.getKey(), entry.getValue().get(0));
 				Log = Log + entry.getKey()+":"+entry.getValue().get(0)+"\n";
 			});
+			if (uri.startsWith("/img")){
+				ImgGet imgGet = new ImgGet(parmMap);
+				response = imgGet.setUri(uri).getResponse();
+				Log = Log + imgGet.getLog();
+			}
 		} else if (HttpMethod.POST == method) {
 			//  «POST«Î«Û
 			Log = Log + "POST:\n";
@@ -129,7 +135,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override  
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {  
-//		ctx.flush();  
+		//		ctx.flush();  
 		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
 
 		System.out.println(Log+"----------end----------\n");

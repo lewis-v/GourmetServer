@@ -52,6 +52,7 @@ public class FileUtils {
     	}finally{
     		try{
     			fc.close();
+    			System.out.println("close");
     		}catch(IOException e){
     			e.printStackTrace();
     		}
