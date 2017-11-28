@@ -20,6 +20,7 @@ import java.util.Map;
 
 import api.ImgGet;
 import api.Login;
+import api.MessageGetList;
 import api.ShareListLoad;
 import io.netty.buffer.ByteBuf;  
 import io.netty.buffer.Unpooled;
@@ -106,14 +107,22 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 					Log = Log + upload.getName()+":"+upload.getFile()+"\n";
 				}
 			}
-			if (uri.startsWith("/Login")){
+			if (uri.startsWith("/Login")){//登录
 				Login login = new Login(parmMap);
 				response = login.getResponse();
 				Log = Log + login.getLog();
-			}else if (uri.startsWith("/ShareList/Load")) {
+			}else if (uri.startsWith("/ShareList/Load")) {//加载分享列表
 				ShareListLoad shareListLoad = new ShareListLoad(parmMap);
 				response = shareListLoad.getResponse();
 				Log = Log +shareListLoad.getLog();
+			}else if (uri.startsWith("/Message/Get/List")){//消息列表
+				MessageGetList messageGet = new MessageGetList(parmMap);
+				response = messageGet.getResponse();
+				Log = Log + messageGet;
+			}else if (uri.startsWith("/Message/Get/Detail")){//消息详情
+				
+			}else if (uri.startsWith("/Message/Put")){//发送消息
+				
 			}
 
 		}

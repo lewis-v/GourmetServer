@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONObject;
+import utils.TimeUtils;
 
 public class SqlConnection {  
 	private static final String URL="jdbc:mysql://39.108.236.30:3306/gourmet?";//数据库连接字符串，这里的deom为数据库名  
@@ -76,11 +77,19 @@ public class SqlConnection {
 				if (id.equals("*")){//搜索全部
 					ResultSetMetaData myData = rs.getMetaData();
 					for (int i = 0; i < myData.getColumnCount();i++){
-						js.put(myData.getColumnName(i+1),rs.getString(i+1));
+						if (myData.getColumnName(i+1).equals("put_time")){
+							js.put("put_time", TimeUtils.getTime(rs.getString(i+1)));
+						}else {
+							js.put(myData.getColumnName(i+1),rs.getString(i+1));
+						}
 					}
 				}else{//搜索特定的
 					for (int i = 0;i<idName.length; i++){
-						js.put(idName[i],rs.getString(i+1));
+						if (idName[i].equals("put_time")){
+							js.put("put_time", TimeUtils.getTime(rs.getString(i+1)));
+						}else {
+							js.put(idName[i],rs.getString(i+1));
+						}
 					}
 				}
 				list.add(js);
