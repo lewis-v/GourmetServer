@@ -22,6 +22,7 @@ public class MessageGetList extends BaseApi{
 			List<JSONObject> list = SqlConnection.getInstance()
 					.search("*", "get_id = " + id 
 							+" or put_id = " + id, "message_list");
+			addLog(SqlConnection.getInstance().getLog());
 			if (list != null && list.size() > 0){
 				for (int i = 0;i < list.size();i++){
 					JSONObject jsonObject = list.get(i);
@@ -30,6 +31,7 @@ public class MessageGetList extends BaseApi{
 								.search("*", "user_id = " 
 										+ (id.equals(jsonObject.getString("put_id"))?
 												jsonObject.getString("get_id"):jsonObject.getString("put_id")), "user_info");
+						
 						if (jList != null && jList.size()>0){
 							if (jList.get(0).containsKey("img_header")){
 								list.get(i).put("img_header", jList.get(0).getString("img_header"));

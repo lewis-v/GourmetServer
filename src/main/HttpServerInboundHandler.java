@@ -21,7 +21,9 @@ import java.util.Map;
 import api.ImgGet;
 import api.Login;
 import api.MessageGetList;
+import api.ReMarkPutData;
 import api.ShareListLoad;
+import api.UserDetailChange;
 import io.netty.buffer.ByteBuf;  
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -118,11 +120,19 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 			}else if (uri.startsWith("/Message/Get/List")){//消息列表
 				MessageGetList messageGet = new MessageGetList(parmMap);
 				response = messageGet.getResponse();
-				Log = Log + messageGet;
+				Log = Log + messageGet.getLog();
 			}else if (uri.startsWith("/Message/Get/Detail")){//消息详情
 				
 			}else if (uri.startsWith("/Message/Put")){//发送消息
 				
+			}else if (uri.startsWith("/ReMark/Put")){//点赞踩
+				ReMarkPutData reMarkPutData = new ReMarkPutData(parmMap);
+				response = reMarkPutData.getResponse();
+				Log = Log + reMarkPutData.getLog();
+			}else if (uri.startsWith("/User/ChangeDetail")){//修改用户信息
+				UserDetailChange userDetailChange = new UserDetailChange(parmMap);
+				response = userDetailChange.getResponse();
+				Log = Log +userDetailChange.getLog();
 			}
 
 		}

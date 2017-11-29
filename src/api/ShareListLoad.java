@@ -21,7 +21,7 @@ public class ShareListLoad extends BaseApi{
 		if (parmMap.containsKey("type")){
 			where = " type = '"+parmMap.get("type")+"'";
 		}
-		List<JSONObject> list = SqlConnection.getInstance().search("*", where, "share_list");
+		List<JSONObject> list = SqlConnection.getInstance().search("*", where, "share_list_all");
 		addLog(list.toString());
 		setStatus(SUCCESS);
 		setMessage("º”‘ÿ≥…π¶");

@@ -25,12 +25,11 @@ public class TimeUtils {
 			Calendar calendarNow = Calendar.getInstance();
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(get);
-			System.out.println(get+";"+calendar.get(Calendar.YEAR)+";"+calendarNow.get(Calendar.YEAR));
-			if (calendar.get(Calendar.YEAR) != calendarNow.get(Calendar.YEAR)){
+			if (calendar.get(Calendar.YEAR) != calendarNow.get(Calendar.YEAR)){//1年以前
 				result = dataYear.format(new Date(get));
-			}else if(calendarNow.get(Calendar.DATE) - calendar.get(Calendar.DATE) == 1){
+			}else if(calendarNow.get(Calendar.DATE) - calendar.get(Calendar.DATE) == 1){//昨天的
 				result = "昨天\t\t" + dataDay.format(new Date(get));
-			}else {
+			}else {//显示日期时间
 				result = dataMonth.format(new Date(get));
 			}
 		}

@@ -123,7 +123,14 @@ public class SqlConnection {
 		return list;
 	}
 
-
+	/**
+	 * 更新数据库
+	 * @param id 需要更新的id
+	 * @param data 更新后的数据
+	 * @param where 筛选条件
+	 * @param formName 表明
+	 * @return
+	 */
 	public synchronized boolean setData(String id,String data,String where,String formName){
 		try {  
 			conn = DriverManager.getConnection(URL, NAME, PASSWORD);  
@@ -136,6 +143,52 @@ public class SqlConnection {
 		if(where != null && where.length()>0){
 			sql = sql +" where "+where;  
 		}
+		log = log + sql + "\n";
+		try {
+			int result = conn.createStatement().executeUpdate(sql);
+			if (result > 0){
+				return true;
+			}
+		} catch (SQLException e1) {
+			if(conn!=null)  
+			{  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+					conn=null;  
+				}  
+			}
+		}
+		if(conn!=null)  
+		{  
+			try {  
+				conn.close();  
+			} catch (SQLException e) {  
+				e.printStackTrace();  
+				conn=null;  
+			}  
+		}
+
+		return false;
+	}
+
+	/**
+	 * 插入数据库
+	 * @param id 需要插入的id
+	 * @param data 插入的数据
+	 * @param formName 表名
+	 * @return
+	 */
+	public synchronized boolean insertData (String id,String data,String formName){
+		try {  
+			conn = DriverManager.getConnection(URL, NAME, PASSWORD);  
+		} catch (SQLException e) {  
+			log = log + "获取数据库连接失败！\n";  
+			e.printStackTrace();  
+		}  
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		String sql = "INSERT INTO "+formName+" ( "+id+" ) VALUES ("+data +")";
 		log = log + sql + "\n";
 		try {
 			int result = conn.createStatement().executeUpdate(sql);
