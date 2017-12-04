@@ -150,6 +150,8 @@ public class SqlConnection {
 				return true;
 			}
 		} catch (SQLException e1) {
+			System.out.println(sql);
+			e1.printStackTrace();
 			if(conn!=null)  
 			{  
 				try {  
@@ -196,6 +198,8 @@ public class SqlConnection {
 				return true;
 			}
 		} catch (SQLException e1) {
+			System.out.println(sql);
+			e1.printStackTrace();
 			if(conn!=null)  
 			{  
 				try {  

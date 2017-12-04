@@ -27,14 +27,14 @@ public class Login extends BaseApi{
 			if (list.size() > 0){
 				setStatus(SUCCESS).setMessage("登陆成功");
 				list = SqlConnection.getInstance()
-						.search("*", "user_id = "+list.get(0).getString("id"), "user_info");
-				if (list.size() > 0){
-					String token = MD5.md5(System.nanoTime()+"").toUpperCase();
-					list.get(0).put("token", token);
-					SqlConnection.getInstance().setData("token", "\'"+token+"\'"
-							, "id = "+list.get(0).getString("user_id"), "user");
-					setData(list.get(0).toString());
-				}
+						.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
+				setData(list.get(0).toString());
+//				if (list.size() > 0){
+//					String token = MD5.md5(System.nanoTime()+"").toUpperCase();
+//					list.get(0).put("token", token);
+//					SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+//							, "id = "+list.get(0).getString("user_id"), "user");
+//				}
 			}else {//token登陆不成功
 				setStatus(DATA_FAIL).setMessage("token不存在");
 			}
@@ -51,14 +51,15 @@ public class Login extends BaseApi{
 				if (list.size()>0){
 					setStatus(SUCCESS).setMessage("登录成功");
 					list = SqlConnection.getInstance()
-							.search("*", "user_id = "+list.get(0).getString("id"), "user_info");
-					if (list.size() > 0){
-						String token = MD5.md5(System.nanoTime()+"").toUpperCase();
-						list.get(0).put("token", token);
-						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
-								, "id = "+list.get(0).getString("user_id"), "user");
-						setData(list.get(0).toString());
-					}
+							.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
+					setData(list.get(0).toString());
+//					if (list.size() > 0){
+//						String token = MD5.md5(System.nanoTime()+"").toUpperCase();
+//						list.get(0).put("token", token);
+//						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+//								, "id = "+list.get(0).getString("user_id"), "user");
+//						
+//					}
 				}else{
 					setStatus(DATA_FAIL).setMessage("账号或密码错误");
 				}

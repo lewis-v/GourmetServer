@@ -65,4 +65,15 @@ public class ServiceResult {
 		response.headers().set(CONTENT_TYPE,Values.APPLICATION_JSON); 
 		return response;
 	}
+	
+	public static FullHttpResponse getUpSuccessResult(String filePath) throws IOException{
+		JSONObject js = new JSONObject();
+		js.put("status", "0");
+		js.put("message", "上传成功");
+		js.put("data", filePath);
+		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,  	
+				Unpooled.wrappedBuffer(js.toString().getBytes("UTF-8")));
+		response.headers().set(CONTENT_TYPE,Values.APPLICATION_JSON); 
+		return response;
+	}
 }
