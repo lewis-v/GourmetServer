@@ -59,6 +59,7 @@ import api.ImgUp;
 import api.Login;
 import api.MessageGetList;
 import api.ReMarkPutData;
+import api.ShareCommonPut;
 import api.ShareDiaryPut;
 import api.ShareListLoad;
 import api.UserDetailChange;
@@ -274,10 +275,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								UserDetailChange userDetailChange = new UserDetailChange(parmMap);
 								response = userDetailChange.getResponse();
 								Log = Log +userDetailChange.getLog();
-							}else if(uri.getPath().startsWith("/Share/Diary/Put")){
+							}else if(uri.getPath().startsWith("/Share/Diary/Put")){//日记分享
 								ShareDiaryPut shareDiaryPut = new ShareDiaryPut(parmMap);
 								response = shareDiaryPut.getResponse();
 								Log = Log + shareDiaryPut.getLog();
+							}else if(uri.getPath().startsWith("/User/Common/Put")){//普通分享
+								ShareCommonPut shareCommonPut = new ShareCommonPut(parmMap);
+								response = shareCommonPut.getResponse();
+								Log = Log + shareCommonPut.getLog();
 							}
 
 						}
