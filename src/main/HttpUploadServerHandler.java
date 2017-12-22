@@ -279,7 +279,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareDiaryPut shareDiaryPut = new ShareDiaryPut(parmMap);
 								response = shareDiaryPut.getResponse();
 								Log = Log + shareDiaryPut.getLog();
-							}else if(uri.getPath().startsWith("/User/Common/Put")){//普通分享
+							}else if(uri.getPath().startsWith("/Share/Common/Put")){//普通分享
 								ShareCommonPut shareCommonPut = new ShareCommonPut(parmMap);
 								response = shareCommonPut.getResponse();
 								Log = Log + shareCommonPut.getLog();
