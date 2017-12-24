@@ -62,6 +62,7 @@ import api.ReMarkPutData;
 import api.ShareCommonPut;
 import api.ShareDiaryPut;
 import api.ShareListLoad;
+import api.ShareMenuPut;
 import api.UserDetailChange;
 
 import static io.netty.buffer.Unpooled.*;
@@ -283,6 +284,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareCommonPut shareCommonPut = new ShareCommonPut(parmMap);
 								response = shareCommonPut.getResponse();
 								Log = Log + shareCommonPut.getLog();
+							}else if(uri.getPath().startsWith("/Share/Menu/Put")){//Ê³Æ×·ÖÏí
+								ShareMenuPut shareMenuPut = new ShareMenuPut(parmMap);
+								response = shareMenuPut.getResponse();
+								Log = Log + shareMenuPut.getLog();
 							}
 
 						}
