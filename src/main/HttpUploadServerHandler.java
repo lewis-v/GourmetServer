@@ -63,6 +63,7 @@ import api.ShareCommonPut;
 import api.ShareDiaryPut;
 import api.ShareListLoad;
 import api.ShareMenuPut;
+import api.ShareOther;
 import api.UserDetailChange;
 
 import static io.netty.buffer.Unpooled.*;
@@ -135,6 +136,23 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ImgGet imgGet = new ImgGet(parmMap);
 								response = imgGet.setUri(uri.toString()).getResponse();
 								Log = Log + imgGet.getLog();
+							}
+							if (uri.getPath().startsWith("/Share/Other")){
+								ShareOther shareOther = new ShareOther(parmMap);
+								shareOther.getResult(responseContent);
+								Log = Log + shareOther.getLog()+"\n\nasfa\n";
+								System.out.println(Log);
+								ByteBuf buf = copiedBuffer(responseContent.toString(), CharsetUtil.UTF_8);
+								// Build the response object.
+								FullHttpResponse response = new DefaultFullHttpResponse(
+										HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf);
+
+								response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+								response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, buf.readableBytes());
+
+								// Write the response.
+								ctx.channel().writeAndFlush(response);
+								return;
 							}
 							if (response ==null){//对未处理的接口进行"无接口"处理
 								response = ServiceResult.getUnHandleResult();
