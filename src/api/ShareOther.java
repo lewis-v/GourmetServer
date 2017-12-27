@@ -183,6 +183,9 @@ public class ShareOther extends BaseApi{
 				}
 				break;
 			}
+			if (responseContent.length() == 0){
+				responseContent.append(getNoFind());
+			}
 		}
 	}
 
