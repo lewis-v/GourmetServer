@@ -140,7 +140,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 							if (uri.getPath().startsWith("/Share/Other")){
 								ShareOther shareOther = new ShareOther(parmMap);
 								shareOther.getResult(responseContent);
-								Log = Log + shareOther.getLog()+"\n\nasfa\n";
+								Log = Log + shareOther.getLog();
 								System.out.println(Log);
 								ByteBuf buf = copiedBuffer(responseContent.toString(), CharsetUtil.UTF_8);
 								// Build the response object.

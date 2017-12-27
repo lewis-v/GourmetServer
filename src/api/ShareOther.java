@@ -33,6 +33,8 @@ public class ShareOther extends BaseApi{
 				js = SqlConnection.getInstance().search("*", "id = "+id, "diary");
 				addLog(SqlConnection.getInstance().getLog());
 				if(js == null || js.size() == 0){//无法搜索到对应数据
+					responseContent.setLength(0);
+					responseContent.append(getNoFind());
 					break;
 				}
 				file = new File("Html/gourmet_diary_form.html");
@@ -80,15 +82,46 @@ public class ShareOther extends BaseApi{
 				}
 				break;
 			case "1"://攻略
-
+				file = new File("Html/gourmet_other_form.html");
+				if (file.exists()){
+					try {
+						BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+						while((cache = bufferedReader.readLine()) != null){
+							responseContent.append(cache);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						break;
+					}
+					cache = setOther(id, type, responseContent.toString());
+					responseContent.setLength(0);
+					responseContent.append(cache);
+				}
 				break;
 			case "2"://食谱
-
+				file = new File("Html/gourmet_other_form.html");
+				if (file.exists()){
+					try {
+						BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+						while((cache = bufferedReader.readLine()) != null){
+							responseContent.append(cache);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						break;
+					}
+					cache = setOther(id, type, responseContent.toString());
+					responseContent.setLength(0);
+					responseContent.append(cache);
+					addLog(cache);
+				}
 				break;
 			case "3"://普通分享
 				js = SqlConnection.getInstance().search("*", "id = "+id+" AND type = "+type, "share_list_all");
 				addLog(SqlConnection.getInstance().getLog());
 				if(js == null || js.size() == 0){//无法搜索到对应数据
+					responseContent.setLength(0);
+					responseContent.append(getNoFind());
 					break;
 				}
 				file = new File("Html/gourmet_common_form.html");
@@ -149,11 +182,32 @@ public class ShareOther extends BaseApi{
 					addLog(cache);
 				}
 				break;
-
-			default:
-				break;
 			}
 		}
+	}
+
+	public String setOther(String id,String type,String cache){
+		String result;
+		result = cache.replaceAll("__id", id);
+		result = result.replaceAll("__type", type);
+		return result;
+	}
+
+	public String getNoFind(){
+		StringBuilder result = new StringBuilder();
+		String content;
+		File file = new File("Html/gourmet_no_find_form.html");
+		if (file.exists()){
+			try {
+				BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+				while((content = bufferedReader.readLine()) != null){
+					result.append(content);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return result.toString();
 	}
 
 	@Override
