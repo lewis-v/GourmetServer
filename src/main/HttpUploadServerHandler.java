@@ -54,6 +54,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import api.Home;
 import api.ImgGet;
 import api.ImgUp;
 import api.Login;
@@ -141,6 +142,23 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareOther shareOther = new ShareOther(parmMap);
 								shareOther.getResult(responseContent);
 								Log = Log + shareOther.getLog();
+								System.out.println(Log);
+								ByteBuf buf = copiedBuffer(responseContent.toString(), CharsetUtil.UTF_8);
+								// Build the response object.
+								FullHttpResponse response = new DefaultFullHttpResponse(
+										HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf);
+
+								response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+								response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, buf.readableBytes());
+
+								// Write the response.
+								ctx.channel().writeAndFlush(response);
+								return;
+							}
+							if (uri.getPath().startsWith("/Home")){//ึ๗าณ
+								Home home = new Home(parmMap);
+								home.getResult(responseContent);
+								Log = Log + home.getLog();
 								System.out.println(Log);
 								ByteBuf buf = copiedBuffer(responseContent.toString(), CharsetUtil.UTF_8);
 								// Build the response object.
