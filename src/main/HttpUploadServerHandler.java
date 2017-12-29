@@ -58,7 +58,9 @@ import api.Home;
 import api.ImgGet;
 import api.ImgUp;
 import api.Login;
+import api.MessageGetDetail;
 import api.MessageGetList;
+import api.MessagePut;
 import api.ReMarkPutData;
 import api.ShareCommonPut;
 import api.ShareDiaryPut;
@@ -301,9 +303,13 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								response = messageGet.getResponse();
 								Log = Log + messageGet.getLog();
 							}else if (uri.getPath().startsWith("/Message/Get/Detail")){//消息详情
-
+								MessageGetDetail messageGetDetail = new MessageGetDetail(parmMap);
+								response = messageGetDetail.getResponse();
+								Log = Log + messageGetDetail.getLog();
 							}else if (uri.getPath().startsWith("/Message/Put")){//发送消息
-
+								MessagePut messagePut = new MessagePut(parmMap);
+								response = messagePut.getResponse();
+								Log = Log + messagePut.getLog();
 							}else if (uri.getPath().startsWith("/ReMark/Put")){//点赞踩
 								ReMarkPutData reMarkPutData = new ReMarkPutData(parmMap);
 								response = reMarkPutData.getResponse();
