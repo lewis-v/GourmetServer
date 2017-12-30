@@ -54,6 +54,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import api.CommentGet;
 import api.Home;
 import api.ImgGet;
 import api.ImgUp;
@@ -330,6 +331,12 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareMenuPut shareMenuPut = new ShareMenuPut(parmMap);
 								response = shareMenuPut.getResponse();
 								Log = Log + shareMenuPut.getLog();
+							}else if(uri.getPath().startsWith("/Comment/Get")){//获取评论信息
+								CommentGet commentGet = new CommentGet(parmMap);
+								response = commentGet.getResponse();
+								Log = Log + commentGet.getLog();
+							}else if(uri.getPath().startsWith("/Comment/Put")){//发送评论
+								
 							}
 
 						}
