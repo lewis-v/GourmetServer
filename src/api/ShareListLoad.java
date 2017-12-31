@@ -18,9 +18,12 @@ public class ShareListLoad extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		String where = "";
-		if (parmMap.containsKey("type")){
-			where = " type = '"+parmMap.get("type")+"'";
+		if (parmMap.containsKey("type") && parmMap.containsKey("id")){//获取制定分享信息
+			where = " type = "+parmMap.get("type")+" AND  id = "+parmMap.get("id");
+		}else if (parmMap.containsKey("type")){//获取制定类型
+			where = " type = "+parmMap.get("type");
 		}
+
 		List<JSONObject> list = SqlConnection.getInstance().search("*", where, "share_list_all");
 		addLog(list.toString());
 		setStatus(SUCCESS);

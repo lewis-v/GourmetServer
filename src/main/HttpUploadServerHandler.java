@@ -55,6 +55,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import api.CommentGet;
+import api.CommentPut;
 import api.Home;
 import api.ImgGet;
 import api.ImgUp;
@@ -63,9 +64,12 @@ import api.MessageGetDetail;
 import api.MessageGetList;
 import api.MessagePut;
 import api.ReMarkPutData;
+import api.ShareCommonGet;
 import api.ShareCommonPut;
+import api.ShareDiaryGet;
 import api.ShareDiaryPut;
 import api.ShareListLoad;
+import api.ShareMenuGet;
 import api.ShareMenuPut;
 import api.ShareOther;
 import api.UserDetailChange;
@@ -336,7 +340,21 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								response = commentGet.getResponse();
 								Log = Log + commentGet.getLog();
 							}else if(uri.getPath().startsWith("/Comment/Put")){//发送评论
-								
+								CommentPut commentPut = new CommentPut(parmMap);
+								response = commentPut.getResponse();
+								Log = Log + commentPut.getLog();
+							}else if(uri.getPath().startsWith("/Share/Common/Get")){//获取普通分享详情
+								ShareCommonGet shareCommonGet = new ShareCommonGet(parmMap);
+								response = shareCommonGet.getResponse();
+								Log = Log + shareCommonGet.getLog();
+							}else if(uri.getPath().startsWith("/Share/Diary/Get")){//获取日记详情
+								ShareDiaryGet shareDiaryGet = new ShareDiaryGet(parmMap);
+								response = shareDiaryGet.getResponse();
+								Log = Log + shareDiaryGet.getLog();
+							}else if(uri.getPath().startsWith("/Share/Menu/Get")){//获取菜谱详情
+								ShareMenuGet shareMenuGet = new ShareMenuGet(parmMap);
+								response = shareMenuGet.getResponse();
+								Log = Log + shareMenuGet.getLog();
 							}
 
 						}
