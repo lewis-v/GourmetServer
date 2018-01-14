@@ -54,11 +54,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import api.AreaGet;
 import api.CommentGet;
 import api.CommentPut;
 import api.Home;
 import api.ImgGet;
 import api.ImgUp;
+import api.Init;
 import api.Login;
 import api.MessageGetDetail;
 import api.MessageGetList;
@@ -72,6 +74,7 @@ import api.ShareListLoad;
 import api.ShareMenuGet;
 import api.ShareMenuPut;
 import api.ShareOther;
+import api.ShareRaidersPut;
 import api.UserDetailChange;
 
 import static io.netty.buffer.Unpooled.*;
@@ -140,12 +143,21 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								parmMap.put(entry.getKey(), entry.getValue().get(0));
 								Log = Log + entry.getKey()+":"+entry.getValue().get(0)+"\n";
 							});
-							if (uri.getPath().startsWith("/img")){
+							if (uri.getPath().startsWith("/Init")){//APP初始化信息
+								Init init = new Init(parmMap);
+								response = init.getResponse();
+								Log = Log + init.getLog();
+							}
+							if (uri.getPath().startsWith("/Area/Get")){//获取地址信息
+								AreaGet areaGet = new AreaGet(parmMap);
+								response = areaGet.getResponse();
+								Log = Log + areaGet.getLog();
+							}else if (uri.getPath().startsWith("/img")){//获取照片
 								ImgGet imgGet = new ImgGet(parmMap);
 								response = imgGet.setUri(uri.toString()).getResponse();
 								Log = Log + imgGet.getLog();
 							}
-							if (uri.getPath().startsWith("/Share/Other")){
+							if (uri.getPath().startsWith("/Share/Other")){//微信分享网址
 								ShareOther shareOther = new ShareOther(parmMap);
 								shareOther.getResult(responseContent);
 								Log = Log + shareOther.getLog();
@@ -218,17 +230,17 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 			responseContent.append("\r\n\r\n");
 
 			// new getMethod
-//			Set<Cookie> cookies;
-//			String value = request.headers().get(HttpHeaderNames.COOKIE);
-//			if (value == null) {
-//				cookies = Collections.emptySet();
-//			} else {
-//				cookies = ServerCookieDecoder.STRICT.decode(value);
-//			}
-//			for (Cookie cookie : cookies) {
-//				responseContent.append("COOKIE: " + cookie + "\r\n");
-//			}
-//			responseContent.append("\r\n\r\n");
+			//			Set<Cookie> cookies;
+			//			String value = request.headers().get(HttpHeaderNames.COOKIE);
+			//			if (value == null) {
+			//				cookies = Collections.emptySet();
+			//			} else {
+			//				cookies = ServerCookieDecoder.STRICT.decode(value);
+			//			}
+			//			for (Cookie cookie : cookies) {
+			//				responseContent.append("COOKIE: " + cookie + "\r\n");
+			//			}
+			//			responseContent.append("\r\n\r\n");
 
 			QueryStringDecoder decoderQuery = new QueryStringDecoder(request.uri());
 			Map<String, List<String>> uriAttributes = decoderQuery.parameters();
@@ -294,7 +306,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 							Log = Log + "POST:\n";
 							for (Entry<String, String> entry : parmMap.entrySet()){
 								Log = Log + entry.getKey()+":"+entry.getValue();
-								}
+							}
 							if (uri.getPath().startsWith("/Login")){//登录
 								Login login = new Login(parmMap);
 								response = login.getResponse();
@@ -355,6 +367,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareMenuGet shareMenuGet = new ShareMenuGet(parmMap);
 								response = shareMenuGet.getResponse();
 								Log = Log + shareMenuGet.getLog();
+							}else if(uri.getPath().startsWith("/Share/Raiders/Put")){//攻略分享
+								ShareRaidersPut shareRaidersPut = new ShareRaidersPut(parmMap);
+								response = shareRaidersPut.getResponse();
+								Log = Log + shareRaidersPut.getLog();
 							}
 
 						}
@@ -469,9 +485,9 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 				File file = new File("img/UP"+System.nanoTime()
 				+fileUpload.getFilename().substring(fileUpload.getFilename().lastIndexOf(".")));
 				try{
-				if (!file.exists()){
-					file.createNewFile();
-				}
+					if (!file.exists()){
+						file.createNewFile();
+					}
 					FileUtils.copyFile(fileUpload.getFile(), file);
 				}catch (Exception e){
 					e.printStackTrace();
@@ -537,25 +553,25 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 			response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, buf.readableBytes());
 		}
 
-//		Set<Cookie> cookies;
-//		String value = request.headers().get(HttpHeaderNames.COOKIE);
-//		if (value == null) {
-//			cookies = Collections.emptySet();
-//		} else {
-//			cookies = ServerCookieDecoder.STRICT.decode(value);
-//		}
-//		if (!cookies.isEmpty()) {
-//			// Reset the cookies if necessary.
-//			for (Cookie cookie : cookies) {
-//				response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode(cookie));
-//			}
-//		}
+		//		Set<Cookie> cookies;
+		//		String value = request.headers().get(HttpHeaderNames.COOKIE);
+		//		if (value == null) {
+		//			cookies = Collections.emptySet();
+		//		} else {
+		//			cookies = ServerCookieDecoder.STRICT.decode(value);
+		//		}
+		//		if (!cookies.isEmpty()) {
+		//			// Reset the cookies if necessary.
+		//			for (Cookie cookie : cookies) {
+		//				response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode(cookie));
+		//			}
+		//		}
 		// Write the response.
 		ChannelFuture future = channel.writeAndFlush(response);
 		// Close the connection after the write operation is done if necessary.
-				if (close) {
-		future.addListener(ChannelFutureListener.CLOSE);
-				}
+		if (close) {
+			future.addListener(ChannelFutureListener.CLOSE);
+		}
 		Log = Log + "----------end----------\n";
 		System.out.println(Log);
 		parmMap.clear();
