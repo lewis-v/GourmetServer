@@ -18,11 +18,11 @@ public class ShareRaidersPut extends BaseApi{
 	public FullHttpResponse getResponse() throws IOException {
 		if (parmMap.containsKey("id") && parmMap.containsKey("title") && parmMap.containsKey("status")
 				&& parmMap.containsKey("raiders_type") && parmMap.containsKey("introduction")
-				&& parmMap.containsKey("content") && parmMap.containsKey("cover")){
-			String name = "user_id,title,status,raiders_type,introduction,content,cover,create_time,type";
+				&& parmMap.containsKey("raiders_content") && parmMap.containsKey("cover")){
+			String name = "user_id,title,status,raiders_type,introduction,raiders_content,cover,create_time,type,put_time";
 			String data = parmMap.get("id")+",'"+parmMap.get("title")+"',"+parmMap.get("status")+",'"+parmMap.get("raiders_type")
-			+"','"+parmMap.get("intruduction")+"','"+parmMap.get("content")+"','"+parmMap.get("cover")+"',"
-			+String.valueOf(System.currentTimeMillis()/1000)+",1";
+			+"','"+parmMap.get("introduction")+"','"+parmMap.get("raiders_content")+"','"+parmMap.get("cover")+"',"
+			+String.valueOf(System.currentTimeMillis()/1000)+",1,"+String.valueOf(System.currentTimeMillis()/1000);
 			if (SqlConnection.getInstance().insertData(name, data, "raiders")){
 				setStatus(SUCCESS);
 				setMessage("发布成功");

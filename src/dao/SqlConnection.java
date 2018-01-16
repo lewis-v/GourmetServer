@@ -78,7 +78,12 @@ public class SqlConnection {
 					ResultSetMetaData myData = rs.getMetaData();
 					for (int i = 0; i < myData.getColumnCount();i++){
 						if (myData.getColumnName(i+1).equals("put_time")){
-							js.put("put_time", TimeUtils.getTime(rs.getString(i+1)));
+							String str = rs.getString(i+1);
+							if (str != null && str.length() > 1){
+								js.put("put_time", TimeUtils.getTime(str));
+							}else{
+								js.put("put_time", 0);
+							}
 						}else {
 							js.put(myData.getColumnName(i+1),rs.getString(i+1));
 						}
@@ -86,7 +91,12 @@ public class SqlConnection {
 				}else{//ËÑË÷ÌØ¶¨µÄ
 					for (int i = 0;i<idName.length; i++){
 						if (idName[i].equals("put_time")){
-							js.put("put_time", TimeUtils.getTime(rs.getString(i+1)));
+							String str = rs.getString(i+1);
+							if (str != null && str.length() > 1){
+								js.put("put_time", TimeUtils.getTime(str));
+							}else{
+								js.put("put_time", 0);
+							}
 						}else {
 							js.put(idName[i],rs.getString(i+1));
 						}

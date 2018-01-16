@@ -74,6 +74,7 @@ import api.ShareListLoad;
 import api.ShareMenuGet;
 import api.ShareMenuPut;
 import api.ShareOther;
+import api.ShareRaidersGet;
 import api.ShareRaidersPut;
 import api.UserDetailChange;
 
@@ -347,6 +348,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareMenuPut shareMenuPut = new ShareMenuPut(parmMap);
 								response = shareMenuPut.getResponse();
 								Log = Log + shareMenuPut.getLog();
+							}else if(uri.getPath().startsWith("/Share/Raiders/Put")){//攻略分享
+								ShareRaidersPut shareRaidersPut = new ShareRaidersPut(parmMap);
+								response = shareRaidersPut.getResponse();
+								Log = Log + shareRaidersPut.getLog();
 							}else if(uri.getPath().startsWith("/Comment/Get")){//获取评论信息
 								CommentGet commentGet = new CommentGet(parmMap);
 								response = commentGet.getResponse();
@@ -367,10 +372,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareMenuGet shareMenuGet = new ShareMenuGet(parmMap);
 								response = shareMenuGet.getResponse();
 								Log = Log + shareMenuGet.getLog();
-							}else if(uri.getPath().startsWith("/Share/Raiders/Put")){//攻略分享
-								ShareRaidersPut shareRaidersPut = new ShareRaidersPut(parmMap);
-								response = shareRaidersPut.getResponse();
-								Log = Log + shareRaidersPut.getLog();
+							}else if(uri.getPath().startsWith("/Share/Raiders/Get")){//获取攻略详情
+								ShareRaidersGet shareRaidersGet = new ShareRaidersGet(parmMap);
+								response = shareRaidersGet.getResponse();
+								Log = Log + shareRaidersGet.getLog();
 							}
 
 						}
