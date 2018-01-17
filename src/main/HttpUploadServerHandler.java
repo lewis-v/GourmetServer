@@ -76,6 +76,7 @@ import api.ShareMenuPut;
 import api.ShareOther;
 import api.ShareRaidersGet;
 import api.ShareRaidersPut;
+import api.ShareWeChatGet;
 import api.UserDetailChange;
 
 import static io.netty.buffer.Unpooled.*;
@@ -157,8 +158,11 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ImgGet imgGet = new ImgGet(parmMap);
 								response = imgGet.setUri(uri.toString()).getResponse();
 								Log = Log + imgGet.getLog();
-							}
-							if (uri.getPath().startsWith("/Share/Other")){//微信分享网址
+							}else if(uri.getPath().startsWith("/Share/WeChatId/Get")){//获取微信分享app_id
+								ShareWeChatGet shareWeChatGet = new ShareWeChatGet(parmMap);
+								response = shareWeChatGet.getResponse();
+								Log = Log + shareWeChatGet.getLog();
+							}else if(uri.getPath().startsWith("/Share/Other")){//微信分享网址
 								ShareOther shareOther = new ShareOther(parmMap);
 								shareOther.getResult(responseContent);
 								Log = Log + shareOther.getLog();
@@ -174,8 +178,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								// Write the response.
 								ctx.channel().writeAndFlush(response);
 								return;
-							}
-							if (uri.getPath().startsWith("/Home")){//主页
+							}else if (uri.getPath().startsWith("/Home")){//主页
 								Home home = new Home(parmMap);
 								home.getResult(responseContent);
 								Log = Log + home.getLog();
