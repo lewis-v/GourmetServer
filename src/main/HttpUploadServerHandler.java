@@ -56,6 +56,7 @@ import java.util.logging.Logger;
 
 import api.AreaGet;
 import api.CommentGet;
+import api.CommentGetMy;
 import api.CommentPut;
 import api.Home;
 import api.ImgGet;
@@ -357,6 +358,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								Log = Log + shareRaidersPut.getLog();
 							}else if(uri.getPath().startsWith("/Comment/Get")){//获取评论信息
 								CommentGet commentGet = new CommentGet(parmMap);
+								response = commentGet.getResponse();
+								Log = Log + commentGet.getLog();
+							}else if(uri.getPath().startsWith("/Comment/My/Get")){//获取个人已评论信息
+								CommentGetMy commentGet = new CommentGetMy(parmMap);
 								response = commentGet.getResponse();
 								Log = Log + commentGet.getLog();
 							}else if(uri.getPath().startsWith("/Comment/Put")){//发送评论
