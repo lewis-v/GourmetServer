@@ -55,6 +55,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import api.AreaGet;
+import api.CollectionGet;
+import api.CollectionPut;
 import api.CommentGet;
 import api.CommentGetMy;
 import api.CommentPut;
@@ -384,6 +386,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								ShareRaidersGet shareRaidersGet = new ShareRaidersGet(parmMap);
 								response = shareRaidersGet.getResponse();
 								Log = Log + shareRaidersGet.getLog();
+							}else if(uri.getPath().startsWith("/Collection/Put")){//收藏信息
+								CollectionPut collectionPut = new CollectionPut(parmMap);
+								response = collectionPut.getResponse();
+								Log = Log + collectionPut.getLog();
+							}else if(uri.getPath().startsWith("/Collection/Get")){//获取收藏信息
+								CollectionGet collectionGet = new CollectionGet(parmMap);
+								response = collectionGet.getResponse();
+								Log = Log + collectionGet.getLog();
 							}
 
 						}

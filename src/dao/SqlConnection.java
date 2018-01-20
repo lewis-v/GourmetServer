@@ -201,7 +201,6 @@ public class SqlConnection {
 			log = log + "获取数据库连接失败！\n";  
 			e.printStackTrace();  
 		}  
-		List<JSONObject> list = new ArrayList<JSONObject>();
 		String sql = "INSERT INTO "+formName+" ( "+id+" ) VALUES ("+data +")";
 		log = log + sql + "\n";
 		try {
@@ -231,7 +230,51 @@ public class SqlConnection {
 				conn=null;  
 			}  
 		}
-
+		return false;
+	}
+	
+	/**
+	 * 删除数据库表中的指定数据
+	 * @param where 删除条件
+	 * @param formName 表名
+	 * @return
+	 */
+	public synchronized boolean removeData (String where,String formName){
+		try {  
+			conn = DriverManager.getConnection(URL, NAME, PASSWORD);  
+		} catch (SQLException e) {  
+			log = log + "获取数据库连接失败！\n";  
+			e.printStackTrace();  
+		}  
+		String sql = "DELETE FROM "+formName+" where "+where;
+		log = log + sql + "\n";
+		try {
+			int result = conn.createStatement().executeUpdate(sql);
+			if (result > 0){
+				return true;
+			}
+		} catch (SQLException e1) {
+			System.out.println(sql);
+			e1.printStackTrace();
+			if(conn!=null)  
+			{  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+					conn=null;  
+				}  
+			}
+		}
+		if(conn!=null)  
+		{  
+			try {  
+				conn.close();  
+			} catch (SQLException e) {  
+				e.printStackTrace();  
+				conn=null;  
+			}  
+		}
 		return false;
 	}
 }  
