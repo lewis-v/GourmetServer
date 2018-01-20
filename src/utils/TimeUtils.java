@@ -13,7 +13,7 @@ public class TimeUtils {
 	public static String getTime(String time){
 		String result;
 		long now = System.currentTimeMillis();
-		long get = Long.parseLong(time)*1000L;
+		long get = Long.parseLong(time);
 		long sub = now - get;
 		if (sub <= 1000 * 60){//1·ÖÖÓÒÔÄÚ
 			result = "¸Õ¸Õ";

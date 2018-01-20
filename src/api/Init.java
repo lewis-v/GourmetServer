@@ -28,7 +28,7 @@ public class Init extends BaseApi{
 		}else{
 			setStatus(SUCCESS);
 			setMessage("获取数据成功");
-			list.get(0).put("time", System.currentTimeMillis()/1000);
+			list.get(0).put("time", System.currentTimeMillis());
 			setData(list.get(0).toString());
 		}
 		response = ServiceResult.getJSONResult(js.toString());

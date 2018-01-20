@@ -31,7 +31,7 @@ public class ShareDiaryPut extends BaseApi{
 			setData.append("','");
 			setData.append(parmMap.get("content"));
 			setData.append("',");
-			setData.append(System.currentTimeMillis()/1000);
+			setData.append(System.currentTimeMillis());
 			setData.append(",");
 			setData.append(parmMap.get("status"));
 			if (parmMap.containsKey("cover")){//·âÃæ

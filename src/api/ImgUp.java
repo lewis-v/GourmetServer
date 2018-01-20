@@ -21,7 +21,7 @@ public class ImgUp extends BaseApi{
 			File file = new File(parmMap.get("path"));
 			if (file.exists()){
 				if (SqlConnection.getInstance().insertData("user_id,path,up_time"
-						, parmMap.get("id")+","+"\'http://39.108.236.30:47423/img/"+file.getName()+"\',"+System.currentTimeMillis()/1000
+						, parmMap.get("id")+","+"\'http://39.108.236.30:47423/img/"+file.getName()+"\',"+System.currentTimeMillis()
 						, "upimg")){
 					setStatus(SUCCESS);
 					setMessage("上传成功");

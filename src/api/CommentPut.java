@@ -32,7 +32,7 @@ public class CommentPut extends BaseApi{
 			data.append(",'");
 			data.append(parmMap.get("content"));
 			data.append("',");
-			data.append(String.valueOf(System.currentTimeMillis()/1000));
+			data.append(String.valueOf(System.currentTimeMillis()));
 			if (SqlConnection.getInstance().insertData(id, data.toString(), "comment")){
 				List<JSONObject> list = SqlConnection.getInstance()
 						.search("*", "type = "+parmMap.get("type") +" AND act_id = "+parmMap.get("act_id"), "comment_all");

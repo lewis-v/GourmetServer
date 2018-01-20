@@ -31,7 +31,7 @@ public class MessagePut extends BaseApi{
 			data.append(",");
 			data.append(parmMap.get("type"));
 			data.append(",");
-			data.append(String.valueOf(System.currentTimeMillis()/1000));
+			data.append(String.valueOf(System.currentTimeMillis()));
 			switch (parmMap.get("type")) {
 			case TEXT:
 				if (parmMap.containsKey("content")){

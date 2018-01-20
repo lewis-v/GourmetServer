@@ -84,6 +84,7 @@ public class SqlConnection {
 							}else{
 								js.put("put_time", 0);
 							}
+							js.put("time_flag", str);
 						}else {
 							js.put(myData.getColumnName(i+1),rs.getString(i+1));
 						}
@@ -97,6 +98,7 @@ public class SqlConnection {
 							}else{
 								js.put("put_time", 0);
 							}
+							js.put("time_flag", str);
 						}else {
 							js.put(idName[i],rs.getString(i+1));
 						}

@@ -19,8 +19,8 @@ public class ShareCommonPut extends BaseApi{
 		if (parmMap.containsKey("id") && parmMap.containsKey("status") 
 				&& (parmMap.containsKey("content") || parmMap.containsKey("img"))){
 			String name = "user_id,put_time,create_time,status,content,img";
-			String data = parmMap.get("id")+","+System.currentTimeMillis()/1000+","
-			+System.currentTimeMillis()/1000+","+parmMap.get("status")+",'"
+			String data = parmMap.get("id")+","+System.currentTimeMillis()+","
+			+System.currentTimeMillis()+","+parmMap.get("status")+",'"
 					+(parmMap.containsKey("content")?parmMap.get("content"):"")+"','"
 					+(parmMap.containsKey("img")?parmMap.get("img"):"")+"'";
 			if (SqlConnection.getInstance().insertData(name, data, "common_share")){

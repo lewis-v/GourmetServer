@@ -22,7 +22,7 @@ public class ShareRaidersPut extends BaseApi{
 			String name = "user_id,title,status,raiders_type,introduction,raiders_content,cover,create_time,type,put_time";
 			String data = parmMap.get("id")+",'"+parmMap.get("title")+"',"+parmMap.get("status")+",'"+parmMap.get("raiders_type")
 			+"','"+parmMap.get("introduction")+"','"+parmMap.get("raiders_content")+"','"+parmMap.get("cover")+"',"
-			+String.valueOf(System.currentTimeMillis()/1000)+",1,"+String.valueOf(System.currentTimeMillis()/1000);
+			+String.valueOf(System.currentTimeMillis())+",1,"+String.valueOf(System.currentTimeMillis());
 			if (SqlConnection.getInstance().insertData(name, data, "raiders")){
 				setStatus(SUCCESS);
 				setMessage("发布成功");

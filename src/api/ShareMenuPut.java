@@ -26,7 +26,7 @@ public class ShareMenuPut extends BaseApi{
 			name.append("user_id,put_time,status,title,cover,difficult_level,play_time,introduction,practice,create_time");
 			data.append(parmMap.get("id"));
 			data.append(",");
-			data.append(System.currentTimeMillis()/1000);
+			data.append(System.currentTimeMillis());
 			data.append(",");
 			data.append(parmMap.get("status"));
 			data.append(",'");

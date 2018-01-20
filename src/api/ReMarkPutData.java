@@ -28,7 +28,7 @@ public class ReMarkPutData extends BaseApi{
 						, parmMap.get("id")
 						+","+parmMap.get("act_id")
 						+","+parmMap.get("act")
-						+","+System.currentTimeMillis()/1000
+						+","+System.currentTimeMillis()
 						+","+parmMap.get("type")
 						, "remark_info")){
 					addLog(SqlConnection.getInstance().getLog());
