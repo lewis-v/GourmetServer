@@ -33,8 +33,8 @@ public class ReMarkPutData extends BaseApi{
 						, "remark_info")){
 					addLog(SqlConnection.getInstance().getLog());
 					List<JSONObject> list = SqlConnection.getInstance().search("*"
-							, "id = "+parmMap.get("act_id") +" AND type = " +parmMap.get("type")
-							, "share_list_all");
+							, "id = "+parmMap.get("act_id") +" AND type = " +parmMap.get("type") +" GROUP BY share_list_all.user_id,share_list_all.id,share_list_all.type "
+							, "share_list_all LEFT JOIN comment_status_all ON share_list_all.type = comment_status_all.m_type AND share_list_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id"));
 					if ( list.size() > 0 ){
 						setStatus(SUCCESS);
 						setMessage("²Ù×÷³É¹¦");

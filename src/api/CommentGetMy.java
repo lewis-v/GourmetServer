@@ -24,14 +24,14 @@ public class CommentGetMy extends BaseApi{
 			String act = parmMap.get("type");
 			where = " user_id = "+parmMap.get("id");
 			if (act.equals("0")){
-				from = " comment_my_all ";
+				from = " comment_my_all LEFT JOIN comment_status_all ON comment_my_all.type = comment_status_all.m_type AND comment_my_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id");
 			}else if(act.equals("1")){
-				from = " comment_my ";
+				from = " comment_my  LEFT JOIN comment_status_all ON comment_my.type = comment_status_all.m_type AND comment_my.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id");
 			}else if(act.equals("2")){
-				from = " remark_my ";
+				from = " remark_my  LEFT JOIN comment_status_all ON remark_my.type = comment_status_all.m_type AND remark_my.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id");
 				where = where + " AND act = 1";
 			}else if(act.equals("3")){
-				from = " remark_my ";
+				from = " remark_my  LEFT JOIN comment_status_all ON remark_my.type = comment_status_all.m_type AND remark_my.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id");
 				where = where + " AND act = 0";
 			}else{
 				setStatus(DATA_FAIL);

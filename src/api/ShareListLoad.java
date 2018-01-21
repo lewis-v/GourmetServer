@@ -28,24 +28,23 @@ public class ShareListLoad extends BaseApi{
 			where = " user_id = "+parmMap.get("id");
 		}
 		if(parmMap.containsKey("user_id")){
-			id = "share_list_all.*,collection.id is_collection,`comment`.id is_comment,remark_info.act good_act";
-			from = "(((share_list_all LEFT JOIN collection ON share_list_all.type = collection.type AND share_list_all.id = collection.act_id AND collection.user_id = "+parmMap.get("user_id")+") LEFT JOIN remark_info ON share_list_all.type = remark_info.type AND share_list_all.id = remark_info.act_id AND remark_info.user_id = "+parmMap.get("user_id")+" )LEFT JOIN `comment` ON share_list_all.type = `comment`.type AND share_list_all.id = `comment`.act_id AND `comment`.user_id = "+parmMap.get("user_id")+")";
+			from = "share_list_all LEFT JOIN comment_status_all ON share_list_all.type = comment_status_all.m_type AND share_list_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("user_id");
 		}
 		if(parmMap.containsKey("time_flag") && parmMap.containsKey("act")){//act行為,1為向上,-1為向下
 			if (where.length() > 1){
 				where = where+" AND ";
 			}
-			if (parmMap.get("act").equals("1")){//上更新
-				where = where + "put_time > " + parmMap.get("time_flag")+" ORDER BY share_list_all.put_time DESC";
+			if (parmMap.get("act").equals("-1")){//上更新
+				where = where + "put_time > " + parmMap.get("time_flag")+" GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC";
 			}else{//下加載
 				where = where + "put_time < " + parmMap.get("time_flag");
-				where = where + " ORDER BY share_list_all.put_time DESC LIMIT 0,10";
+				where = where + " GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC LIMIT 0,10";
 			}
 		}else{
 			if (where.length()==0){
-				from = from + " ORDER BY share_list_all.put_time DESC  LIMIT 0,10";
+				from = from + " GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC  LIMIT 0,10";
 			}else{
-				where = where + " ORDER BY share_list_all.put_time DESC  LIMIT 0,10";
+				where = where + " GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC  LIMIT 0,10";
 			}
 		}
 		

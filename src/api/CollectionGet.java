@@ -19,7 +19,7 @@ public class CollectionGet extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		if(parmMap.containsKey("id")){
-			List<JSONObject> list = SqlConnection.getInstance().search("*", " collection_id = "+parmMap.get("id"), "collect_all");
+			List<JSONObject> list = SqlConnection.getInstance().search("*", " collection_id = "+parmMap.get("id"), "collect_all LEFT JOIN comment_status_all ON collect_all.type = comment_status_all.m_type AND collect_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id"));
 			setStatus(SUCCESS);
 			setMessage("获取成功");
 			setData(list.toString());
@@ -27,6 +27,7 @@ public class CollectionGet extends BaseApi{
 			setStatus(DATA_FAIL);
 			setMessage("访问失败");
 		}
+		addLog(SqlConnection.getInstance().getLog());
 		response = ServiceResult.getJSONResult(js.toString());
 		addLog(js.toString());
 		return response;
