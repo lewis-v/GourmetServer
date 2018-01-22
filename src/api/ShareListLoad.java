@@ -34,8 +34,8 @@ public class ShareListLoad extends BaseApi{
 			if (where.length() > 1){
 				where = where+" AND ";
 			}
-			if (parmMap.get("act").equals("-1")){//上更新
-				where = where + "put_time > " + parmMap.get("time_flag")+" GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC";
+			if (parmMap.get("act").equals("1")){//上更新
+				where = where + "put_time > " + parmMap.get("time_flag")+" GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC LIMIT 0,10";
 			}else{//下加載
 				where = where + "put_time < " + parmMap.get("time_flag");
 				where = where + " GROUP BY share_list_all.id,share_list_all.type ORDER BY share_list_all.put_time DESC LIMIT 0,10";
