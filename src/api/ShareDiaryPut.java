@@ -22,9 +22,9 @@ public class ShareDiaryPut extends BaseApi{
 			StringBuffer setData = new StringBuffer();
 			setId.append("user_id,time,create_time,title,content,put_time,status");
 			setData.append(parmMap.get("id"));
-			setData.append(",");
+			setData.append(",'");
 			setData.append(parmMap.get("time"));
-			setData.append(",");
+			setData.append("',");
 			setData.append(parmMap.get("create_time"));
 			setData.append(",'");
 			setData.append(parmMap.get("title"));
