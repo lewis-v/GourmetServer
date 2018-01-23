@@ -19,7 +19,16 @@ public class CollectionGet extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		if(parmMap.containsKey("id")){
-			List<JSONObject> list = SqlConnection.getInstance().search("*", " collection_id = "+parmMap.get("id"), "collect_all LEFT JOIN comment_status_all ON collect_all.type = comment_status_all.m_type AND collect_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id"));
+			String where = " collection_id = "+parmMap.get("id");
+			String id = "";
+			String from = "collect_all LEFT JOIN comment_status_all ON collect_all.type = comment_status_all.m_type AND collect_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id");
+			if (parmMap.containsKey("time_flag") && parmMap.containsKey("act")){
+				if (parmMap.get("act").equals("-1")){
+					where = where + " AND put_time < "+parmMap.get("time_flag") ;
+				}
+			}
+			where = where +" LIMIT 0,10";
+			List<JSONObject> list = SqlConnection.getInstance().search("*", where, from);
 			setStatus(SUCCESS);
 			setMessage("获取成功");
 			setData(list.toString());
