@@ -80,6 +80,8 @@ import api.ShareOther;
 import api.ShareRaidersGet;
 import api.ShareRaidersPut;
 import api.ShareWeChatGet;
+import api.TopGet;
+import api.TopPut;
 import api.UserDetailChange;
 
 import static io.netty.buffer.Unpooled.*;
@@ -394,6 +396,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								CollectionGet collectionGet = new CollectionGet(parmMap);
 								response = collectionGet.getResponse();
 								Log = Log + collectionGet.getLog();
+							}else if(uri.getPath().startsWith("/Top/Put")){//设置置顶的信息
+								TopPut topPut = new TopPut(parmMap);
+								response = topPut.getResponse();
+								Log = Log + topPut.getLog();
+							}else if(uri.getPath().startsWith("/Top/Get")){//获取置顶信息
+								TopGet topGet = new TopGet(parmMap);
+								response = topGet.getResponse();
+								Log = Log + topGet.getLog();
 							}
 
 						}

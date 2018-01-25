@@ -56,7 +56,7 @@ public class ReMarkPutData extends BaseApi{
 			setStatus(DATA_FAIL);
 			setMessage("∑√Œ  ß∞‹");
 		}
-				addLog(js.toString());
+		addLog(js.toString());
 		response = ServiceResult.getJSONResult(js.toString());
 		return response;
 	}
