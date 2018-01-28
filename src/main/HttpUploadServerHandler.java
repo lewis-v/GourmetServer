@@ -83,6 +83,7 @@ import api.ShareWeChatGet;
 import api.TopGet;
 import api.TopPut;
 import api.UserDetailChange;
+import api.UserInfoGet;
 
 import static io.netty.buffer.Unpooled.*;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
@@ -404,6 +405,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								TopGet topGet = new TopGet(parmMap);
 								response = topGet.getResponse();
 								Log = Log + topGet.getLog();
+							}else if(uri.getPath().startsWith("/User/Info/Get")){//获取用户信息
+								UserInfoGet userInfoGet = new UserInfoGet(parmMap);
+								response = userInfoGet.getResponse();
+								Log = Log + userInfoGet.getLog();
 							}
 
 						}

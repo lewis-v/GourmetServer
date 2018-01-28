@@ -19,7 +19,12 @@ public class ShareMenuGet extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		if (parmMap.containsKey("id")){
-			List<JSONObject> list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "menu_all");
+			List<JSONObject> list ;
+			if (parmMap.containsKey("user_id")){
+				list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "menu_all LEFT JOIN comment_status_all ON menu_all.type = comment_status_all.m_type AND menu_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("user_id"));
+			}else{
+				list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "menu_all");
+			}
 			addLog(SqlConnection.getInstance().getLog());
 			if (list != null && list.size()>0){
 				setStatus(SUCCESS);

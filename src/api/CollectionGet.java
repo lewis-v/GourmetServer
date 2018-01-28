@@ -27,7 +27,7 @@ public class CollectionGet extends BaseApi{
 					where = where + " AND put_time < "+parmMap.get("time_flag") ;
 				}
 			}
-			where = where +" LIMIT 0,10";
+			where = where +" GROUP BY id,type ORDER BY put_time DESC LIMIT 0,10";
 			List<JSONObject> list = SqlConnection.getInstance().search("*", where, from);
 			setStatus(SUCCESS);
 			setMessage("获取成功");

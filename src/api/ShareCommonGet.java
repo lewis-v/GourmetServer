@@ -19,7 +19,12 @@ public class ShareCommonGet extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		if (parmMap.containsKey("id")){
-			List<JSONObject> list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "common_share_all");
+			List<JSONObject> list ;
+			if (parmMap.containsKey("user_id")){
+				list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "common_share_all LEFT JOIN comment_status_all ON common_share_all.type = comment_status_all.m_type AND common_share_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("user_id"));
+			}else{
+				list = SqlConnection.getInstance().search("*", "id = "+parmMap.get("id"), "common_share_all");
+			}
 			if (list != null && list.size()>0){
 				setStatus(SUCCESS);
 				setMessage("获取成功");
