@@ -19,8 +19,8 @@ public class TopGet extends BaseApi{
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
 		if (parmMap.containsKey("id")){
-			List<JSONObject> list = SqlConnection.getInstance().search("*", "user_id = "+parmMap.get("id") + " Order by top_num ", "top_all  LEFT JOIN comment_status_all ON top_all.type = comment_status_all.m_type AND top_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id"));
-			if (list != null && list.size()>0){
+			List<JSONObject> list = SqlConnection.getInstance().search("*", "user_id = "+parmMap.get("id") + " GROUP BY type,id,top_num Order by top_num ", "top_all  LEFT JOIN comment_status_all ON top_all.type = comment_status_all.m_type AND top_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("id"));
+			if (list != null){
 				setStatus(SUCCESS);
 				setMessage("获取成功");
 				setData(list.toString());
