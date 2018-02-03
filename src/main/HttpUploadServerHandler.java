@@ -60,6 +60,8 @@ import api.CollectionPut;
 import api.CommentGet;
 import api.CommentGetMy;
 import api.CommentPut;
+import api.FindShare;
+import api.FlowGet;
 import api.Home;
 import api.ImgGet;
 import api.ImgUp;
@@ -155,8 +157,11 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								Init init = new Init(parmMap);
 								response = init.getResponse();
 								Log = Log + init.getLog();
-							}
-							if (uri.getPath().startsWith("/Area/Get")){//获取地址信息
+							}else if(uri.getPath().startsWith("/Flow/Get")){//获取滚动栏广告
+								FlowGet flowGet = new FlowGet(parmMap);
+								response = flowGet.getResponse();
+								Log = Log + flowGet.getLog();
+							}else if (uri.getPath().startsWith("/Area/Get")){//获取地址信息
 								AreaGet areaGet = new AreaGet(parmMap);
 								response = areaGet.getResponse();
 								Log = Log + areaGet.getLog();
@@ -409,6 +414,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								UserInfoGet userInfoGet = new UserInfoGet(parmMap);
 								response = userInfoGet.getResponse();
 								Log = Log + userInfoGet.getLog();
+							}else if(uri.getPath().startsWith("/Find/Share")){//搜索分享数据
+								FindShare findShare = new FindShare(parmMap);
+								response = findShare.getResponse();
+								Log = Log + findShare.getLog();
 							}
 
 						}
