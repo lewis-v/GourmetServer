@@ -84,8 +84,10 @@ import api.ShareRaidersPut;
 import api.ShareWeChatGet;
 import api.TopGet;
 import api.TopPut;
+import api.UserCheck;
 import api.UserDetailChange;
 import api.UserInfoGet;
+import api.UserRegistered;
 
 import static io.netty.buffer.Unpooled.*;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
@@ -418,6 +420,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								FindShare findShare = new FindShare(parmMap);
 								response = findShare.getResponse();
 								Log = Log + findShare.getLog();
+							}else if(uri.getPath().startsWith("/User/Registered")){//×¢²áÕËºÅ
+								UserRegistered userRegistered = new UserRegistered(parmMap);
+								response = userRegistered.getResponse();
+								Log = Log + userRegistered.getLog();
+							}else if(uri.getPath().startsWith("/User/Check")){//¼ì²â×¢²áµÄÊÖ»úºÅ¼°êÇ³ÆÊÇ·ñ´æÔÚ
+								UserCheck userCheck = new UserCheck(parmMap);
+								response = userCheck.getResponse();
+								Log = Log + userCheck.getLog();
 							}
 
 						}

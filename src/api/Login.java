@@ -28,13 +28,20 @@ public class Login extends BaseApi{
 				setStatus(SUCCESS).setMessage("µÇÂ½³É¹¦");
 				list = SqlConnection.getInstance()
 						.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
-				setData(list.get(0).toString());
-//				if (list.size() > 0){
-//					String token = MD5.md5(System.nanoTime()+"").toUpperCase();
-//					list.get(0).put("token", token);
-//					SqlConnection.getInstance().setData("token", "\'"+token+"\'"
-//							, "id = "+list.get(0).getString("user_id"), "user");
-//				}
+				if (list.size() > 0){
+					String token = MD5.md5(System.nanoTime()+"").toUpperCase();
+					if (list.get(0).containsKey("token")){
+						list.get(0).replace("token", token);
+					}else{
+						list.get(0).put("token", token);
+					}
+					SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+							, "id = "+list.get(0).getString("user_id"), "user");
+					setData(list.get(0).toString());
+				}else{
+					setMessage("µÇÂ¼Ê§°Ü");
+					setStatus(FAIL);
+				}
 			}else {//tokenµÇÂ½²»³É¹¦
 				setStatus(DATA_FAIL).setMessage("token²»´æÔÚ");
 			}
@@ -52,14 +59,21 @@ public class Login extends BaseApi{
 					setStatus(SUCCESS).setMessage("µÇÂ¼³É¹¦");
 					list = SqlConnection.getInstance()
 							.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
-					setData(list.get(0).toString());
-//					if (list.size() > 0){
-//						String token = MD5.md5(System.nanoTime()+"").toUpperCase();
-//						list.get(0).put("token", token);
-//						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
-//								, "id = "+list.get(0).getString("user_id"), "user");
-//						
-//					}
+					if (list.size() > 0){
+						String token = MD5.md5(System.nanoTime()+"").toUpperCase();
+						if (list.get(0).containsKey("token")){
+							list.get(0).replace("token", token);
+						}else{
+							list.get(0).put("token", token);
+						}
+						
+						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+								, "id = "+list.get(0).getString("user_id"), "user");
+						setData(list.get(0).toString());
+					}else{
+						setMessage("µÇÂ¼Ê§°Ü");
+						setStatus(FAIL);
+					}
 				}else{
 					setStatus(DATA_FAIL).setMessage("ÕËºÅ»òÃÜÂë´íÎó");
 				}

@@ -48,6 +48,13 @@ public class MessageGetList extends BaseApi{
 				addLog(js.toString());
 				response = ServiceResult.getJSONResult(js.toString());
 				return response;
+			}else{
+				setStatus(SUCCESS);
+				setMessage("获取成功");
+				addLog(js.toString());
+				setData(list.toString());
+				response = ServiceResult.getJSONResult(js.toString());
+				return response;
 			}
 
 		}
