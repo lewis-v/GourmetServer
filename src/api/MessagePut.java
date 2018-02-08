@@ -6,6 +6,7 @@ import java.util.Map;
 import base.BaseApi;
 import dao.SqlConnection;
 import io.netty.handler.codec.http.FullHttpResponse;
+import push.PushManager;
 import utils.ServiceResult;
 
 public class MessagePut extends BaseApi{
@@ -20,6 +21,7 @@ public class MessagePut extends BaseApi{
 
 	@Override
 	public FullHttpResponse getResponse() throws IOException {
+		String time = String.valueOf(System.currentTimeMillis());
 		if (parmMap.containsKey("put_id") && parmMap.containsKey("get_id") && parmMap.containsKey("type")
 				&&(parmMap.containsKey("content") || parmMap.containsKey("img"))){
 			StringBuilder id = new StringBuilder();
@@ -31,7 +33,7 @@ public class MessagePut extends BaseApi{
 			data.append(",");
 			data.append(parmMap.get("type"));
 			data.append(",");
-			data.append(String.valueOf(System.currentTimeMillis()));
+			data.append(time);
 			switch (parmMap.get("type")) {
 			case TEXT:
 				if (parmMap.containsKey("content")){
@@ -46,12 +48,19 @@ public class MessagePut extends BaseApi{
 				break;
 			case VOICE:
 
+				id.append(",content");
+				data.append("','");
+				data.append("[”Ô“Ù]");
+				data.append("'");
 				break;
 			case IMG:
 				if (parmMap.containsKey("img")){
 					id.append(",img");
 					data.append(",'");
 					data.append(parmMap.get("img"));
+					id.append(",content");
+					data.append("','");
+					data.append("[Õº∆¨]");
 					data.append("'");
 				}else{
 					setStatus(DATA_FAIL);
@@ -62,6 +71,8 @@ public class MessagePut extends BaseApi{
 			if (SqlConnection.getInstance().insertData(id.toString(), data.toString(), "message")){
 				setStatus(SUCCESS);
 				setMessage("∑¢ÀÕ≥…π¶");
+				addLog(PushManager.getInstance().sendMessage(SqlConnection.getInstance().search("*", "put_time = "+time+" AND put_id = "+parmMap.get("put_id")
+				+" AND get_id = "+parmMap.get("get_id"), "message_detail")));
 			}else{
 				setStatus(FAIL);
 				setMessage("∑¢ÀÕ ß∞‹");

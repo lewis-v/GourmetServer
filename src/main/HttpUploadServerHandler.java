@@ -39,6 +39,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.MixedFileUpload;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.util.CharsetUtil;
+import push.PushManager;
 import utils.FileUtils;
 import utils.ServiceResult;
 
@@ -207,6 +208,9 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								// Write the response.
 								ctx.channel().writeAndFlush(response);
 								return;
+							}else if(uri.getPath().startsWith("/Test/Push")){//测试推送
+								String result = PushManager.getInstance().pushAll("测试内容", "测试头");
+								response = ServiceResult.getJSONResult(result);
 							}
 							if (response ==null){//对未处理的接口进行"无接口"处理
 								response = ServiceResult.getUnHandleResult();
