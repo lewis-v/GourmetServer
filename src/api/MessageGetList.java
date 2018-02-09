@@ -20,13 +20,15 @@ public class MessageGetList extends BaseApi{
 		if (parmMap.containsKey("id")){
 			String id = parmMap.get("id");
 			List<JSONObject> list = SqlConnection.getInstance()
-					.search("*", "get_id = " + id 
-							+" or put_id = " + id, "message_list");
+					.search("id,list.put_id,list.get_id,content,put_time,is_read,un_read_num", "list.get_id = " + id 
+							+" or list.put_id = " + id +" order by put_time", "message_list AS list LEFT JOIN (SELECT COUNT(message.is_read) AS un_read_num, message.get_id,message.put_id FROM message WHERE message.is_read = 1 AND message.get_id = "+parmMap.get("id")+" GROUP BY message.put_id ) AS msg ON list.get_id = msg.get_id AND list.put_id = msg.put_id OR list.get_id = msg.put_id AND list.put_id = msg.get_id");
 			addLog(SqlConnection.getInstance().getLog());
 			if (list != null && list.size() > 0){
 				for (int i = 0;i < list.size();i++){
 					JSONObject jsonObject = list.get(i);
-					if (jsonObject.containsKey("put_id") && jsonObject.containsKey("get_id")){
+					if (jsonObject.containsKey("list.put_id") && jsonObject.containsKey("list.get_id")){
+						jsonObject.put("put_id", jsonObject.get("list.put_id"));
+						jsonObject.put("get_id", jsonObject.get("list.get_id"));
 						List<JSONObject> jList = SqlConnection.getInstance()
 								.search("*", "user_id = " 
 										+ (id.equals(jsonObject.getString("put_id"))?

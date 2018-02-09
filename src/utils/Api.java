@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -51,20 +52,19 @@ public class Api {
 		return result; // 返回的是string 类型，json的mapper可以直接处理
 	}
 
-	public String httpPost(String key,String sign,String HOST,String url, RequestBody requestBody) throws IOException {
+	public String httpPost(String Authorization,String path, RequestBody requestBody) throws IOException {
 		Builder okBuilder = new OkHttpClient().newBuilder();
 		Request request = new Request.Builder()
-				.addHeader("key", key)
-				.addHeader("sign", sign)
+				.addHeader("Authorization", Authorization)
 				.post(requestBody)
-				.url(HOST+url)
+				.url(path)
 				.build();
-		System.out.println("POST:等待回复:"+sign+";"+HOST+url);
+		System.out.println("POST:等待回复:"+Authorization+";"+path);
 
 		Response response = okBuilder.build().newCall(request).execute();
 		String result = response.body().string();
 		System.out.println("POST:数据转换:"+result);
-		return result; // 返回的是string 类型，json的mapper可以直接处理
+		return result; 
 	}
 
 	/**
@@ -85,12 +85,14 @@ public class Api {
 			conn.setDoInput(true);//是否打开输入流 ， 此方法默认为true
 			conn.setDoOutput(true);//是否打开输出流， 此方法默认为false
 			conn.addRequestProperty("Authorization", Authorization);
+			conn.addRequestProperty("Content-type", "application/json; charset=utf-8");
 			conn.connect();//表示连接
 			OutputStream os = conn.getOutputStream();
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"utf-8"));
 			writer.write(body);
 			writer.flush();
 			os.close();
+			writer.close();
 			System.out.println("post:"+Authorization+";"+body);
 			int code =  conn.getResponseCode();
 			sbuffer.append(code);
@@ -123,4 +125,5 @@ public class Api {
 
 		return sbuffer.toString();
 	}
+	
 }

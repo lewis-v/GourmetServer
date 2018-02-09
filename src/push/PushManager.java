@@ -17,6 +17,8 @@ import utils.MD5;
 
 public class PushManager {
 	public static final String PUSH_PATH = "https://api.jpush.cn/v3/push";
+	public static final String APP_KEY = "87da9f4b8657df6b7d9ee76c";
+	public static final String APP_SECRET = "6459141f4855ed581d80abae";
 	public static final String Authorization = " Basic ODdkYTlmNGI4NjU3ZGY2YjdkOWVlNzZjOjY0NTkxNDFmNDg1NWVkNTgxZDgwYWJhZQ==";
 
 	private static class Instance{
@@ -33,11 +35,18 @@ public class PushManager {
 	 * @param title
 	 */
 	public String pushAll(String content,String title){
+		JSONObject cache = new JSONObject();
+		cache.put("alert", content);
+		cache.put("title", title);
+		JSONObject ca2 = new JSONObject();
+		ca2.put("android", cache);
+		ca2.put("alert", content);
 		JSONObject js = new JSONObject();
-		js.put("plats", "[\"android\"]");//平台
-		js.put("audience", "\"all\"");//推送范围
-		js.put("notification", "\"android\" : {\"alert\":\""+content+"\",\"title\":\""+title+"\"}");
-		String result = Api.getInstance().post(Authorization,PUSH_PATH,js.toString());
+		js.put("platform", "all");//平台
+		js.put("audience", "all");//推送范围
+		js.put("notification", ca2.toString());
+		String result  = "";
+		result = Api.getInstance().post(Authorization,PUSH_PATH,js.toString());
 		System.out.println("push:"+result);
 		return result;
 	}
@@ -50,9 +59,14 @@ public class PushManager {
 	public String sendMessage(List<JSONObject> list){
 		if (list != null && list.size()>0){
 			JSONObject js = new JSONObject();
-			js.put("plats", "[[\"android\"]]");//平台
-			js.put("audience", "{\"alias\" : [ \""+list.get(0).get("get_id")+"\"]}");//推送范围
-			js.put("messaeg", "{\"msg_content\":\"message\",\"extras\":\""+list.get(0).toString()+"\"}");
+			js.put("platform", "[\"android\"]");//平台
+			JSONObject cache = new JSONObject();
+			cache.put("alias", "[\""+list.get(0).get("get_id")+"\"]");
+			js.put("audience", cache.toString());//推送范围
+			cache.clear();
+			cache.put("msg_content", "message");
+			cache.put("extras", list.get(0).toString());
+			js.put("message", cache.toString());
 			String result = Api.getInstance().post(Authorization,PUSH_PATH,js.toString());
 			System.out.println("push:"+result);
 			return result;

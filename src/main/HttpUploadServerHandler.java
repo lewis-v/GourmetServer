@@ -71,6 +71,7 @@ import api.Login;
 import api.MessageGetDetail;
 import api.MessageGetList;
 import api.MessagePut;
+import api.MessageRead;
 import api.ReMarkPutData;
 import api.ShareCommonGet;
 import api.ShareCommonPut;
@@ -344,6 +345,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								MessageGetDetail messageGetDetail = new MessageGetDetail(parmMap);
 								response = messageGetDetail.getResponse();
 								Log = Log + messageGetDetail.getLog();
+							}else if(uri.getPath().startsWith("/Message/Read")){//设置消息已读
+								MessageRead messageRead = new MessageRead(parmMap);
+								response = messageRead.getResponse();
+								Log = Log + messageRead.getLog();
 							}else if (uri.getPath().startsWith("/Message/Put")){//发送消息
 								MessagePut messagePut = new MessagePut(parmMap);
 								response = messagePut.getResponse();
