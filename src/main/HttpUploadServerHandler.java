@@ -87,6 +87,7 @@ import api.ShareWeChatGet;
 import api.TopGet;
 import api.TopPut;
 import api.UserCheck;
+import api.UserComplaint;
 import api.UserDetailChange;
 import api.UserInfoGet;
 import api.UserRegistered;
@@ -437,6 +438,10 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								UserCheck userCheck = new UserCheck(parmMap);
 								response = userCheck.getResponse();
 								Log = Log + userCheck.getLog();
+							}else if(uri.getPath().startsWith("/User/Complaint")){//Í¶Ëß
+								UserComplaint userComplaint = new UserComplaint(parmMap);
+								response = userComplaint.getResponse();
+								Log = Log + userComplaint.getLog();
 							}
 
 						}
