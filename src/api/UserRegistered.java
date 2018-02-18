@@ -37,6 +37,7 @@ public class UserRegistered extends BaseApi{
 							+parmMap.get("nickname")+"'", "user_info")){
 						setMessage("注册成功");
 						setStatus(SUCCESS);
+						SqlConnection.getInstance().insertData("content,put_id,get_id,put_time,type", "'欢迎使用美食圈',0,"+id+","+System.currentTimeMillis()+",0", "message");
 					}else{
 						setMessage("注册失败");
 						setStatus(FAIL);
