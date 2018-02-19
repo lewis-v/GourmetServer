@@ -61,6 +61,7 @@ import api.CollectionPut;
 import api.CommentGet;
 import api.CommentGetMy;
 import api.CommentPut;
+import api.Crash;
 import api.FindShare;
 import api.FlowGet;
 import api.Home;
@@ -89,6 +90,7 @@ import api.TopPut;
 import api.UserCheck;
 import api.UserComplaint;
 import api.UserDetailChange;
+import api.UserFeedback;
 import api.UserInfoGet;
 import api.UserRegistered;
 
@@ -442,6 +444,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								UserComplaint userComplaint = new UserComplaint(parmMap);
 								response = userComplaint.getResponse();
 								Log = Log + userComplaint.getLog();
+							}else if(uri.getPath().startsWith("/User/Feedback")){//反馈意见
+								UserFeedback userFeedback = new UserFeedback(parmMap);
+								response = userFeedback.getResponse();
+								Log = Log + userFeedback.getLog();
+							}else if(uri.getPath().startsWith("/Crash")){//崩溃信息收集
+								Crash crash = new Crash(parmMap);
+								response = crash.getResponse();
+								Log = Log + crash.getLog();
 							}
 
 						}
