@@ -1,5 +1,6 @@
 package main;
 
+import api.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -55,45 +56,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import api.AreaGet;
-import api.CollectionGet;
-import api.CollectionPut;
-import api.CommentGet;
-import api.CommentGetMy;
-import api.CommentPut;
-import api.Crash;
-import api.FindShare;
-import api.FlowGet;
-import api.Home;
-import api.ImgGet;
-import api.ImgUp;
-import api.Init;
-import api.Login;
-import api.MessageGetDetail;
-import api.MessageGetList;
-import api.MessagePut;
-import api.MessageRead;
-import api.ReMarkPutData;
-import api.ShareCommonGet;
-import api.ShareCommonPut;
-import api.ShareDiaryGet;
-import api.ShareDiaryPut;
-import api.ShareListLoad;
-import api.ShareMenuGet;
-import api.ShareMenuPut;
-import api.ShareOther;
-import api.ShareRaidersGet;
-import api.ShareRaidersPut;
-import api.ShareWeChatGet;
-import api.TopGet;
-import api.TopPut;
-import api.UserCheck;
-import api.UserComplaint;
-import api.UserDetailChange;
-import api.UserFeedback;
-import api.UserInfoGet;
-import api.UserRegistered;
 
 import static io.netty.buffer.Unpooled.*;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
@@ -470,7 +432,13 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 								Crash crash = new Crash(parmMap);
 								response = crash.getResponse();
 								Log = Log + crash.getLog();
-							}
+							}else if (uri.getPath().startsWith("/Manager/RejectShare")){//拒绝分享
+                                ManagerReject managerReject = new ManagerReject(parmMap);
+                                response = managerReject.getResponse();
+                                Log = Log + managerReject.getLog();
+							}else if (uri.getPath().startsWith("/Manager/Complaint/Get")){//获取投诉信息
+
+                            }
 
 						}
 						if (response ==null){//对未处理的接口进行"无接口"处理
