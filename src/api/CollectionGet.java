@@ -27,6 +27,19 @@ public class CollectionGet extends BaseApi{
 					where = where + " AND put_time < "+parmMap.get("time_flag") ;
 				}
 			}
+			if (parmMap.containsKey("status")){//请求查看指定权限内容的
+				if (where.length()>0){
+					where = where + " AND status = "+parmMap.get("status");
+				}else{
+					where = "status = "+parmMap.get("status");
+				}
+			}else{//正常无法看到被禁止的
+				if (where.length()>0){
+					where = where + " AND status = 1";
+				}else{
+					where = "status = 1";
+				}
+			}
 			where = where +" GROUP BY id,type ORDER BY put_time DESC LIMIT 0,10";
 			List<JSONObject> list = SqlConnection.getInstance().search("*", where, from);
 			setStatus(SUCCESS);

@@ -27,6 +27,19 @@ public class ShareListLoad extends BaseApi{
 		}else if (parmMap.containsKey("id")){//指定id
 			where = " user_id = "+parmMap.get("id");
 		}
+		if (parmMap.containsKey("status")){//请求查看指定权限内容的
+			if (where.length()>0){
+				where = where + " AND status = "+parmMap.get("status");
+			}else{
+				where = "status = "+parmMap.get("status");
+			}
+		}else{//正常无法看到被禁止的
+			if (where.length()>0){
+				where = where + " AND status = 1";
+			}else{
+				where = "status = 1";
+			}
+		}
 		if(parmMap.containsKey("user_id")){
 			from = "share_list_all LEFT JOIN comment_status_all ON share_list_all.type = comment_status_all.m_type AND share_list_all.id = comment_status_all.m_id AND comment_status_all.m_user_id = "+parmMap.get("user_id");
 		}

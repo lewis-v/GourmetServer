@@ -11,6 +11,7 @@ import dao.SqlConnection;
 import io.netty.handler.codec.http.FullHttpResponse;
 import net.sf.json.JSONObject;
 import utils.MD5;
+import utils.SHA;
 import utils.ServiceResult;
 
 public class Login extends BaseApi{
@@ -53,27 +54,33 @@ public class Login extends BaseApi{
 				setStatus(DATA_FAIL).setMessage("ÇëÊäÈëÃÜÂë");
 			}else{//ÕËºÅÃÜÂëµÇÂ¼²Ù×÷
 				List<JSONObject> list = SqlConnection.getInstance()
-						.search("id", "accout_number = \'"+parmMap.get("id")+"\' "
-								+ "AND password = \'"+parmMap.get("password")+"\'", "user");
+						.search("*", "accout_number = \'"+parmMap.get("id")+"\' ", "user");
 				if (list.size()>0){
-					setStatus(SUCCESS).setMessage("µÇÂ¼³É¹¦");
-					list = SqlConnection.getInstance()
-							.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
-					if (list.size() > 0){
-						String token = MD5.md5(System.nanoTime()+"").toUpperCase();
-						if (list.get(0).containsKey("token")){
-							list.get(0).replace("token", token);
-						}else{
-							list.get(0).put("token", token);
+					if (list.get(0).containsKey("password")){
+						if (SHA.encryptToSHA(list.get(0).get("password").toString()).equals(parmMap.get("password"))){
+							setStatus(SUCCESS).setMessage("µÇÂ¼³É¹¦");
+							list = SqlConnection.getInstance()
+									.search("*", "user_id = "+list.get(0).getString("id"), "user_info_all");
+							if (list.size() > 0){
+								String token = MD5.md5(System.nanoTime()+"").toUpperCase();
+								if (list.get(0).containsKey("token")){
+									list.get(0).replace("token", token);
+								}else{
+									list.get(0).put("token", token);
+								}
+								
+								SqlConnection.getInstance().setData("token", "\'"+token+"\'"
+										, "id = "+list.get(0).getString("user_id"), "user");
+								setData(list.get(0).toString());
+							}else{
+								setMessage("µÇÂ¼Ê§°Ü");
+								setStatus(FAIL);
+							}
 						}
-						
-						SqlConnection.getInstance().setData("token", "\'"+token+"\'"
-								, "id = "+list.get(0).getString("user_id"), "user");
-						setData(list.get(0).toString());
 					}else{
-						setMessage("µÇÂ¼Ê§°Ü");
-						setStatus(FAIL);
+						setStatus(DATA_FAIL).setMessage("ÕËºÅ»òÃÜÂë´íÎó");
 					}
+					
 				}else{
 					setStatus(DATA_FAIL).setMessage("ÕËºÅ»òÃÜÂë´íÎó");
 				}

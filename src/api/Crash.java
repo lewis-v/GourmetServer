@@ -18,7 +18,7 @@ public class Crash extends BaseApi{
 	public FullHttpResponse getResponse() throws IOException {
 		if(parmMap.containsKey("time") && parmMap.containsKey("content")){
 			String id = "time,content";
-			String value = parmMap.get("time")+",'"+parmMap.get("content")+"'";
+			String value = parmMap.get("time")+",\""+parmMap.get("content")+"\"";
 			if (parmMap.containsKey("id")){
 				id = id + ",user_id";
 				value = value + "," + parmMap.get("id");

@@ -41,6 +41,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.util.CharsetUtil;
 import push.PushManager;
 import utils.FileUtils;
+import utils.MD5;
 import utils.ServiceResult;
 
 import java.io.File;
@@ -150,6 +151,23 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 					if (true){
 						//信息处理
 						HttpMethod method = request.method();
+						String time = ((HttpRequest) msg).headers().get("time");
+						String head = ((HttpRequest) msg).headers().get("head");
+						if (!MD5.getMd5("head:"+time).equals(head)){//头部验证不通过
+							Log = Log + "头部验证失败\n";
+							response = ServiceResult.getHeaderFailResult();
+
+							if (HttpHeaders.isKeepAlive(request)) {  
+								response.headers().set(CONNECTION, Values.KEEP_ALIVE);  
+							}else {
+								response.headers().set(CONNECTION, Values.CLOSE);  
+							}
+							response.headers().set(CONTENT_LENGTH, response.content().readableBytes()); 
+
+							Log = Log +response.content().toString()+"\n";
+							writeResponse(ctx.channel()); 
+							return;
+						}
 						Log = Log + msg+" test\n";
 						if (HttpMethod.GET.equals(method)) {
 							// 是GET请求

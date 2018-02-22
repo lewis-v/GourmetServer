@@ -37,6 +37,7 @@ public class MessageRead extends BaseApi{
 			setStatus(DATA_FAIL);
 			setMessage("∑√Œ  ß∞‹");
 		}
+		addLog(SqlConnection.getInstance().getLog());
 		response = ServiceResult.getJSONResult(js.toString());
 		return response;
 	}

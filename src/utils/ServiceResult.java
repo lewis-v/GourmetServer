@@ -5,6 +5,7 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static io.netty.handler.codec.http.HttpResponseStatus.NOT_ACCEPTABLE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.io.IOException;
@@ -61,6 +62,16 @@ public class ServiceResult {
 		js.put("status", "1");
 		js.put("message", "无此接口调用");
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,  	
+				Unpooled.wrappedBuffer(js.toString().getBytes("UTF-8")));
+		response.headers().set(CONTENT_TYPE,Values.APPLICATION_JSON); 
+		return response;
+	}
+	
+	public static FullHttpResponse getHeaderFailResult() throws IOException{
+		JSONObject js = new JSONObject();
+		js.put("status", "1");
+		js.put("message", "访问出错");
+		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, NOT_ACCEPTABLE,  	
 				Unpooled.wrappedBuffer(js.toString().getBytes("UTF-8")));
 		response.headers().set(CONTENT_TYPE,Values.APPLICATION_JSON); 
 		return response;
